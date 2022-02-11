@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors'
 import env from 'dotenv'
@@ -33,6 +33,7 @@ const server = http.createServer(app)
 // @ts-ignore
 export const io = socketIO(server) 
 sockets(io)
+app.get('/', (req: Request, res: Response) => res.status(200).send('Server is running'))
 app.use('/api', AdminRoute)
 app.use('/api', UserRoute)
 app.use('/api', CandidateRoute)
