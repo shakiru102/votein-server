@@ -44,6 +44,9 @@ const userVoteSchema = joi.object<usersVote>({
     electionDate: joi.string().required(),
     votes: [ votesSchema ]
 })
+const biometricsScehma = joi.object({
+    biometrics: joi.any().required()
+})
 
 export const validateSignupSchema = (user: userDetails) => signupUserSchema.validate(user)
 
@@ -54,3 +57,5 @@ export const validateCandidateSchema = ( data: candidateDetails) => candidateSch
 export const valiadatePositionSchema = (data: positionDetail) => positionSchema.validate(data)
 
 export const validateUserVoteSchema = (data: usersVote) => userVoteSchema.validate(data)
+
+export const validateBiometricsSchema = (data: object) => biometricsScehma.validate(data)
