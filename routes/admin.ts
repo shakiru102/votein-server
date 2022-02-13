@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { auth, signin, signout } from "../controllers/adminController";
+import { auth, election, signin } from "../controllers/adminController";
 import signinValidation from "../middlewares/signinValidation";
 
 const router = Router()
 
 router.post('/admin/signin', signinValidation , signin)
 router.get('/admin/auth', auth)
-router.get('/admin/signout', signout)
+router.post('/admin/electiontitle', election)
 
 export default router

@@ -10,7 +10,7 @@ export const biometrics = async (req: Request, res: Response) => {
         // Check if user has already been registered
         const registeredUser = await User.findOne({ biometrics })
         if(!registeredUser) {
-            io.emit('registerbiometrics', biometrics)
+            io.emit('registerbiometrics', { biometrics, register: true })
             return res.send('ok')
         } 
         io.emit('registerError', { error: 'User already exits', register: false })

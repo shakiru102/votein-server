@@ -31,7 +31,11 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 const server = http.createServer(app)
 // @ts-ignore
-export const io = socketIO(server) 
+export const io = socketIO(server, { 
+    cors: {
+        origin: '*'
+    }
+ }) 
 sockets(io)
 app.get('/', (req: Request, res: Response) => res.status(200).send('Server is running'))
 app.use('/api', AdminRoute)

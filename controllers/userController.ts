@@ -13,8 +13,7 @@ export const signup = async (req: Request, res: Response) => {
     if(isNewUser) throw new Error('User already exist')
     const user = await User.create({ firstname, lastname, voterID, biometrics, email, password: newPassword, phonenumber, electionDate })
     const token = authUser({ id: user._id})
-    res.cookie('votein', token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-    res.status(200).send('Signed up successfully')
+    res.status(200).json({ token })
     } catch (error: any) {
         console.log(error.message)
         res.status(400).send(error.message)
@@ -28,8 +27,7 @@ export const signin = async (req: Request, res: Response) => {
         const verifyPassword = await confirmPassword(password, verifyEmail.password)
         if(!verifyPassword) throw new Error('Invalid Password')
         const token = authUser({id: verifyEmail._id})
-        res.cookie('votein',token, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.send('Loggedin')
+        res.status(200).json({ token })
     } catch (error: any) {
         console.log(error.message)
         res.status(400).send(error.message)
@@ -38,20 +36,20 @@ export const signin = async (req: Request, res: Response) => {
 
 export const auth = async (req: Request, res: Response) => {
     try {
-        const token = await req.cookies.votein
+        const token = req.header('Votein')
         if(!token) throw new Error('Unauthorized')
         const verifiedToken = verifyUser(token)
         if(!verifiedToken) throw new Error('Unauthroized')
      //    @ts-ignore
         const user = await User.findById({ _id: verifiedToken.id })
-        res.status(200).json(user)
+        if(user){
+        const { firstname, lastname, email, phonenumber, voterID, electionDate, _id }  = user
+        res.status(200).json({ firstname, lastname, email, phonenumber, voterID, electionDate, _id})
+        }
+        
     } catch (error: any) {
         console.log(error.message)
         res.status(400).send(error.message)
     }
  }
  
- export const signout = async (req: Request, res: Response) => {
-     res.cookie('votein', '', {  maxAge: 1000 })
-     res.status(200).send('logged out')
- }

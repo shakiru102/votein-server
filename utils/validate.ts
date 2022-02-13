@@ -14,7 +14,7 @@ const signupUserSchema = joi.object<userDetails>({
 
 const signinSchema = joi.object<userDetails>({
     email: joi.string().required().email(),
-    password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+    password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required().min(8)
     
 })
 
