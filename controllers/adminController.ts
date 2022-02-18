@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { io } from "../index";
 import Admin from "../models/adminModel";
 import Electiontitle from "../models/electionDateModel";
+import User from "../models/userModel";
 import { adminDetails } from "../types/interface";
 import { confirmPassword } from "../utils/bcrypt";
 import { authUser, verifyUser } from "../utils/jwt";
@@ -43,8 +44,9 @@ export const auth = async (req: Request, res: Response) => {
 
 export const election = async (req: Request, res: Response) => {
     try {
-     await Electiontitle.create(req.body)
-        io.emit('electiontitle', req.body)
+     const election = await Electiontitle.create(req.body)
+     await  Admin.updateMany({ electionDate: election.electionDate })
+     await  User.updateMany({ electionDate: election.electionDate })
         res.status(200).send('ok')
     } catch (error: any) {
         res.status(400).send(error.message)

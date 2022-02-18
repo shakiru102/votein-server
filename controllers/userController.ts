@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import Electiontitle from "../models/electionDateModel";
 import User from "../models/userModel";
 import { userDetails } from "../types/interface";
 import { confirmPassword, hashPassword } from "../utils/bcrypt";
@@ -7,11 +8,12 @@ import { authUser, verifyUser } from "../utils/jwt";
 export const signup = async (req: Request, res: Response) => {
 
     try {
-    const { firstname, lastname, voterID, biometrics, email, password, phonenumber, electionDate }: userDetails = req.body 
+    const { firstname, lastname, voterID, biometrics, email, password, phonenumber}: userDetails = req.body 
     const newPassword = await hashPassword(password) 
     const isNewUser = await User.findOne({ biometrics }) 
     if(isNewUser) throw new Error('User already exist')
-    const user = await User.create({ firstname, lastname, voterID, biometrics, email, password: newPassword, phonenumber, electionDate })
+    const electiontitle: object[] = await Electiontitle.find({}).sort({ electionDate: 1 })
+    const user = await User.create({ firstname, lastname, voterID, biometrics, email, password: newPassword, phonenumber, electionDate: electiontitle[0] })
     const token = authUser({ id: user._id})
     res.status(200).json({ token })
     } catch (error: any) {

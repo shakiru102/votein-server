@@ -9,7 +9,6 @@ const signupUserSchema = joi.object<userDetails>({
     password: joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
     phonenumber: joi.string().required(),
     voterID: joi.string().required(),
-    electionDate: joi.string().required()
 })
 
 const signinSchema = joi.object<userDetails>({
