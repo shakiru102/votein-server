@@ -24,7 +24,7 @@ export const signin = async (req: Request, res: Response) => {
 
 export const auth = async (req: Request, res: Response) => {
    try {
-       const token = req.header('Votein')
+        const token = await req.cookies.votein
        if(!token) throw new Error('Unauthorized')
        const verifiedToken = verifyUser(token)
        if(!verifiedToken) throw new Error('Unauthroized')
