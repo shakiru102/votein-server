@@ -35,3 +35,12 @@ export const deletePositon = async (req: Request, res: Response) => {
         res.status(400).send(error.message)
     }
 }
+
+export const positions = async (req: Request, res: Response) => {
+    try {
+        const data = await Position.find({})
+        res.status(200).json(data)
+    } catch (error: any) {
+        res.status(400).send(error.message)
+    }
+}

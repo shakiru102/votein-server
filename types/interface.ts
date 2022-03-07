@@ -12,8 +12,9 @@ export interface userDetails  {
     phonenumber: string;
     email: string;
     password: string;
-    biometrics: any,
+    biometrics?: any,
     electionDate: string;
+    _id?: any
 
 }
 
@@ -28,15 +29,10 @@ export interface candidateDetails {
 
 }
 
-export interface candidate {
-    position: string;
-    party: string;
-    candidateID: string
-}
 
 export interface usersVote {
     userID: string;
-    votes: candidate[]
+    votes: positionDetail[]
     electionDate: string;
 }
 
@@ -44,4 +40,5 @@ export interface positionDetail{
     position: string;
     maxVote: number;
     _id?: string;
+    vote?: string | string[];
 }

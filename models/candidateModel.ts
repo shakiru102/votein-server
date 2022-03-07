@@ -8,6 +8,7 @@ const schema = new mongoose.Schema<candidateDetails>({
     lastname: String,
     party: String,
     position: String,
+    NIN: String
     
 })
 

@@ -1,15 +1,11 @@
 import mongoose from 'mongoose'
-import { candidate, usersVote } from '../types/interface'
+import { usersVote } from '../types/interface'
 
-const candidateSchema = new mongoose.Schema<candidate>({
-    position: String,
-    party: String,
-    candidateID: String
-})
+
 
 const schema = new mongoose.Schema<usersVote>({
     userID: String,
-    votes: [ candidateSchema ],
+    votes: mongoose.Schema.Types.Mixed,
     electionDate: String
 })
 

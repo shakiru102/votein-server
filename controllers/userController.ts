@@ -38,16 +38,18 @@ export const signin = async (req: Request, res: Response) => {
 
 export const auth = async (req: Request, res: Response) => {
     try {
-        const token = await req.cookies.votein
+        const token = req.header('VOTEIN')
         if(!token) throw new Error('Unauthorized')
         const verifiedToken = verifyUser(token)
         if(!verifiedToken) throw new Error('Unauthroized')
+        console.log('server hit')
+
      //    @ts-ignore
         const user = await User.findById({ _id: verifiedToken.id })
-        if(user){
+        if(!user) throw new Error('Unauthorized')
         const { firstname, lastname, email, phonenumber, voterID, electionDate, _id }  = user
         res.status(200).json({ firstname, lastname, email, phonenumber, voterID, electionDate, _id})
-        }
+        
         
     } catch (error: any) {
         console.log(error.message)

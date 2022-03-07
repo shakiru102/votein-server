@@ -37,3 +37,11 @@ export const deleteCandidate = async (req: Request, res: Response) => {
         res.status(400).send(error.message)
     }
 }
+export const candidates = async (req: Request, res: Response) => {
+   try {
+       const candidates = await Candidate.find({ electionDate: req.query.electionDate })
+       res.status(200).json(candidates)
+   } catch (error: any) {
+        res.status(400).send(error.message)
+   }
+}

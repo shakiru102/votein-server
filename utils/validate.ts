@@ -1,5 +1,5 @@
-import joi, { required } from 'joi'
-import { candidate, candidateDetails, positionDetail, userDetails, usersVote } from '../types/interface'
+import joi, { any, required } from 'joi'
+import { candidateDetails, positionDetail, userDetails, usersVote } from '../types/interface'
 
 const signupUserSchema = joi.object<userDetails>({
     email: joi.string().required().email(),
@@ -29,19 +29,21 @@ const candidateSchema = joi.object<candidateDetails>({
 
 const positionSchema = joi.object<positionDetail>({
     position: joi.string().required(),
-    maxVote: joi.string().required()
+    maxVote: joi.string().required(),
+    _id: joi.any()
 })
 
-const votesSchema = joi.object<candidate>({
-    candidateID: joi.string().required(),
-    party: joi.string().required(),
-    position: joi.string().required()
-}) 
+
 
 const userVoteSchema = joi.object<usersVote>({
     userID: joi.string().required(),
     electionDate: joi.string().required(),
-    votes: [ votesSchema ]
+    votes: joi.array().items(joi.object<positionDetail>({
+        position: joi.string().required(),
+        maxVote: joi.number().required(),
+        vote: joi.alternatives().try(joi.string() , joi.array().items(joi.string())).required(),
+
+    })).required()
 })
 const biometricsScehma = joi.object({
     biometrics: joi.any().required()

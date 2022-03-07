@@ -3,7 +3,7 @@ import { io } from "../index";
 import Admin from "../models/adminModel";
 import Electiontitle from "../models/electionDateModel";
 import User from "../models/userModel";
-import { adminDetails } from "../types/interface";
+import { adminDetails, userDetails } from "../types/interface";
 import { confirmPassword } from "../utils/bcrypt";
 import { authUser, verifyUser } from "../utils/jwt";
 
@@ -24,17 +24,16 @@ export const signin = async (req: Request, res: Response) => {
 
 export const auth = async (req: Request, res: Response) => {
    try {
-        const token = await req.cookies.votein
+        const token = req.header('VOTEIN')
        if(!token) throw new Error('Unauthorized')
        const verifiedToken = verifyUser(token)
        if(!verifiedToken) throw new Error('Unauthroized')
     //    @ts-ignore
-       const admin = await Admin.findById({ _id: verifiedToken.id })
-       if(admin) {
-        const { _id, email, electionDate } = admin
-       res.status(200).json({ _id, email, electionDate })
+       const admins = await Admin.findById({ _id: verifiedToken.id })
+       if(!admins) throw new Error('Unauthorized') 
+        const { _id, email, electionDate, admin } = admins
+       res.status(200).json({ _id, email, electionDate, admin })
 
-       }
    } catch (error: any) {
        console.log(error.message)
        res.status(400).send(error.message)
@@ -50,5 +49,14 @@ export const election = async (req: Request, res: Response) => {
         res.status(200).send('ok')
     } catch (error: any) {
         res.status(400).send(error.message)
+    }
+}
+
+export const getUser = async (req: Request, res: Response) => {
+    try {
+        const users = await User.find({}, {_id: 1})
+        res.status(200).json(users)
+    } catch (error: any) {
+        res.send(error.message)
     }
 }
