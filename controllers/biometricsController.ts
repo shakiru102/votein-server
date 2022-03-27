@@ -38,7 +38,7 @@ export const initiateEnroll = (req: Request, res: Response) => {
    try {
      const id = Object.keys(req.body)
      console.log(req.body, id)
-     res.status(200).send('add-id')
+     res.status(200).send('add-id5')
    } catch (error: any) {
        res.status(400).send(error.message)
    }
