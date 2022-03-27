@@ -12,8 +12,8 @@ export const signup = async (req: Request, res: Response) => {
     const newPassword = await hashPassword(password) 
     const isNewUser = await User.findOne({ biometrics }) 
     if(isNewUser) throw new Error('User already exist')
-    const electiontitle: object[] = await Electiontitle.find({}).sort({ electionDate: 1 })
-    const user = await User.create({ firstname, lastname, voterID, biometrics, email, password: newPassword, phonenumber, electionDate: electiontitle[0] })
+    const electiontitle = await Electiontitle.find({}).sort({ electionDate: 1 })
+    const user = await User.create({ firstname, lastname, voterID, biometrics, email, password: newPassword, phonenumber, electionDate: electiontitle[0].electionDate })
     const token = authUser({ id: user._id})
     res.status(200).json({ token })
     } catch (error: any) {
