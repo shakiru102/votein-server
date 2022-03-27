@@ -36,8 +36,10 @@ export const biometrics = async (req: Request, res: Response) => {
 
 export const initiateEnroll = (req: Request, res: Response) => {
    try {
-    console.log(req.body)
-    res.status(200).send('add-id')
+     const id = Object.keys(req.body)
+     console.log(req.body, id)
+    if(id[0] == 'id') return res.status(200).send(`add-id${req.body.id}`)
+    res.status(200).send('no-id')
    } catch (error: any) {
        res.status(400).send(error.message)
    }
