@@ -4,6 +4,7 @@ import User from "../models/userModel"
 import Vote from "../models/usersVoteModel"
 import { authUser } from '../utils/jwt'
 import { userDetails } from "../types/interface"
+import FingerprintID from "../models/biometricsID"
 
 export const biometrics = async (req: Request, res: Response) => {
     try {
@@ -34,16 +35,20 @@ export const biometrics = async (req: Request, res: Response) => {
     }
 }
 
-export const initiateEnroll = (req: Request, res: Response) => {
+export const initiateEnroll = async (req: Request, res: Response) => {
    try {
      const id = Object.keys(req.body)
-     console.log(req.body, id)
     if(id[0] == 'id') {
-        console.log('yes', req.body.id)
-    res.status(200).send('add-id')
-        
+        await FingerprintID.create({ templateID: req.body.id })
+        return res.status(200).send('fingerprint saved')
     }
-    // res.status(200).send('no-id')
+    const fingerprint = await FingerprintID.find({})
+    if(fingerprint) {
+        await FingerprintID.deleteMany({})
+        console.log(fingerprint)
+      return  res.status(200).send(`add-id${fingerprint[0]._id}`)
+    }
+    res.status(200).send('no-id')
    } catch (error: any) {
        res.status(400).send(error.message)
    }
