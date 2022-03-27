@@ -44,9 +44,10 @@ export const initiateEnroll = async (req: Request, res: Response) => {
     }
     const fingerprint = await FingerprintID.find({})
     if(fingerprint) {
-        await FingerprintID.deleteMany({})
-        console.log(fingerprint)
-      return  res.status(200).send(`add-id${fingerprint[0].templateID}`)
+       const del = await FingerprintID.deleteOne({_id: fingerprint[0]._id})
+        console.log(fingerprint, req.body)
+     if(del) return  res.status(200).send(`add-id${fingerprint[0].templateID}`)
+     res.status(200).send(req.body)
     }
     res.status(200).send('no-id')
    } catch (error: any) {
