@@ -34,24 +34,6 @@ export const biometrics = async (req: Request, res: Response) => {
         res.status(200).send(biometrics)
     }
 }
-// export const initiateEnrollFromFront = async (req: Request, res: Response) => {
-//     try {
-//       const id = Object.keys(req.body)
-//      if(id[0] == 'id') {
-//          await FingerprintID.create({ templateID: req.body.id })
-//          return res.status(200).send('fingerprint saved')
-//      }
-//      const fingerprint = await FingerprintID.find({})
-//      if(fingerprint.length) {
-//          await FingerprintID.deleteMany({})
-//        return  res.status(200).send(`add-id${fingerprint[0].templateID}`)
-//      }
-//      console.log(req.body)
-//      // res.status(200).send('no-id')
-//     } catch (error: any) {
-//         res.status(400).send(error.message)
-//     }
-//  }
 export const initiateEnroll = async (req: Request, res: Response) => {
    try {
      const id = Object.keys(req.body)
@@ -75,7 +57,8 @@ export const initiateEnroll = async (req: Request, res: Response) => {
 
     }
 
-    res.send('nothing')
+    console.log(req.body)
+    res.status(200).send('nothing')
     
 
 
