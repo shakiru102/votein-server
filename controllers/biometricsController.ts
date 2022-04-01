@@ -38,6 +38,7 @@ export const initiateEnroll = async (req: Request, res: Response) => {
    try {
      const id = Object.keys(req.body)
     if(id[0] == 'id') {
+        // PASS THE NECCESSARY ID TO THE MICROCONTROLLER
         console.log(req.body)
         await FingerprintID.create({ templateID: req.body.id })
         return res.status(200).send('fingerprint saved')
@@ -45,6 +46,7 @@ export const initiateEnroll = async (req: Request, res: Response) => {
 
     const confirm_id = Object.keys(req.body)
     if(confirm_id[0] == 'confirm_id'){
+        // TODO EMIT ID BACK TO FRONTEND
         console.log(req.body)
       return  res.status(200).send('Fingerprint has been added!')
     }
@@ -56,14 +58,15 @@ export const initiateEnroll = async (req: Request, res: Response) => {
       return res.status(200).send(`add-id${fingerprint[0].templateID}`)
 
     }
+   const FingerID = Object.keys(req.body)
+    if(FingerID[0] == 'FingerID'){
+        // VERIFY USERS FINGERPRINT FROM THE DATABASE
 
-    console.log(req.body)
-    res.status(200).send('nothing')
+        console.log(req.body)
+     return  res.status(200).send('nothing')
+    }
     
-
-
-
-
+   res.status(200).send('nothing')
 
    } catch (error: any) {
        res.status(400).send(error.message)
