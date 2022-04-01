@@ -56,6 +56,7 @@ export const initiateEnroll = async (req: Request, res: Response) => {
    try {
      const id = Object.keys(req.body)
     if(id[0] == 'id') {
+        console.log(req.body)
         await FingerprintID.create({ templateID: req.body.id })
         return res.status(200).send('fingerprint saved')
     }
@@ -69,11 +70,12 @@ export const initiateEnroll = async (req: Request, res: Response) => {
     const fingerprint = await FingerprintID.find({})
     if(fingerprint.length) {
         await FingerprintID.deleteMany({})
-       res.status(200).send(`add-id${fingerprint[0].templateID}`)
+        console.log(fingerprint[0].templateID)
+      return res.status(200).send(`add-id${fingerprint[0].templateID}`)
 
     }
 
-    
+    res.send('nothing')
     
 
 
