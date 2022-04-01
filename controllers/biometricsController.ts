@@ -48,7 +48,7 @@ export const initiateEnroll = async (req: Request, res: Response) => {
       return  res.status(200).send(`add-id${fingerprint[0].templateID}`)
     }
     console.log(req.body)
-    res.status(200).send('no-id')
+    // res.status(200).send('no-id')
    } catch (error: any) {
        res.status(400).send(error.message)
    }
