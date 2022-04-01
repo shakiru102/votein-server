@@ -53,3 +53,7 @@ export const initiateEnroll = async (req: Request, res: Response) => {
        res.status(400).send(error.message)
    }
 }
+export const verifyEnrolledFingerPrint = async (req: Request, res: Response) => {
+    console.log(req.body)
+    res.status(200).send('verified')
+}
