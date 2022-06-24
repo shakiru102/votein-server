@@ -57,3 +57,12 @@ export const auth = async (req: Request, res: Response) => {
     }
  }
  
+ export const getElectionDate =async (req: Request, res: Response) => {
+     try {
+         const electionDate = await Electiontitle.find({})
+         if(!electionDate) throw new Error('There is no election date specified yet')
+         res.status(200).json({ electionDate: electionDate[0] })
+     } catch (error: any) {
+         res.status(400).send(error.message)
+     }
+ } 

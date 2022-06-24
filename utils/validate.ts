@@ -1,4 +1,4 @@
-import joi, { any, required } from 'joi'
+import joi from 'joi'
 import { candidateDetails, positionDetail, userDetails, usersVote } from '../types/interface'
 
 const signupUserSchema = joi.object<userDetails>({
@@ -45,8 +45,11 @@ const userVoteSchema = joi.object<usersVote>({
 
     })).required()
 })
-const biometricsScehma = joi.object({
-    biometrics: joi.any().required()
+const electionSchema = joi.object({
+    electionDate: joi.string().required(),
+    date: joi.string().required(),
+    time: joi.string().required(),
+    admin: joi.string().required()
 })
 
 export const validateSignupSchema = (user: userDetails) => signupUserSchema.validate(user)
@@ -59,4 +62,4 @@ export const valiadatePositionSchema = (data: positionDetail) => positionSchema.
 
 export const validateUserVoteSchema = (data: usersVote) => userVoteSchema.validate(data)
 
-export const validateBiometricsSchema = (data: object) => biometricsScehma.validate(data)
+export const validateElectionSchema = (data: object) =>  electionSchema.validate(data)

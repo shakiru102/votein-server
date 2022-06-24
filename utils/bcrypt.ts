@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt'
-import { adminDetails } from '../types/interface'
 
 export const hashPassword  = async (password: string): Promise<string> => {
    const salt = await bcrypt.genSalt()

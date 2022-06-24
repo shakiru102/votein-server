@@ -48,6 +48,7 @@ export const election = async (req: Request, res: Response) => {
      await  User.updateMany({ electionDate: election.electionDate })
         res.status(200).send('ok')
     } catch (error: any) {
+        console.log(error.message);
         res.status(400).send(error.message)
     }
 }
@@ -55,6 +56,15 @@ export const election = async (req: Request, res: Response) => {
 export const getUser = async (req: Request, res: Response) => {
     try {
         const users = await User.find({}, {_id: 1})
+        res.status(200).json(users)
+    } catch (error: any) {
+        res.send(error.message)
+    }
+}
+
+export const getUsers = async (req: Request, res: Response) => {
+    try {
+        const users = await User.find({}, {_id: 1, firstname: 1, lastname: 1, phonenumber: 1, voterID: 1 })
         res.status(200).json(users)
     } catch (error: any) {
         res.send(error.message)
