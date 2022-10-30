@@ -15,6 +15,9 @@ const schema = new mongoose.Schema<adminDetails>({
     },
     admin: {
         type: Boolean,
+    },
+    super: {
+        type: Boolean
     }
 })
 

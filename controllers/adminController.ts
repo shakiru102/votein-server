@@ -32,7 +32,7 @@ export const auth = async (req: Request, res: Response) => {
        const admins = await Admin.findById({ _id: verifiedToken.id })
        if(!admins) throw new Error('Unauthorized') 
         const { _id, email, electionDate, admin } = admins
-       res.status(200).json({ _id, email, electionDate, admin })
+       res.status(200).json({ _id, email, electionDate, admin, super: admins.super ? true : false })
 
    } catch (error: any) {
        console.log(error.message)

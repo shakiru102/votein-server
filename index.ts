@@ -12,6 +12,7 @@ import CandidateRoute from './routes/candidate'
 import BiometricsRoute from './routes/biometrics'
 import PositionRoute from "./routes/position"
 import VoteRoute from './routes/votes'
+
 env.config()
 
 const mongooseOptions: object = {
@@ -36,6 +37,8 @@ export const io = socketIO(server, {
         origin: '*'
     }
  }) 
+
+
 sockets(io)
 app.get('/', (req: Request, res: Response) => res.status(200).send('Server is running'))
 app.use('/api', AdminRoute)
